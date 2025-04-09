@@ -213,7 +213,7 @@ function Parse-Command {
 
     switch -regex ($inputStr) {
         '^-a\s+(.+)$' {
-            $prefix = $matches[1].Trim(' ', '"', "'")
+            $prefix = $matches[1].Trim()
             if ($prefix -eq '') {
                 Log-Error "前缀内容不能为空"
                 return $null
@@ -221,7 +221,7 @@ function Parse-Command {
             return @{ Type = 'add'; Prefix = $prefix }
         }
         '^-b\s+(.+)$' {
-            $target = $matches[1].Trim(' ', '"', "'")
+            $target = $matches[1].Trim()
             if ($target -eq '') {
                 Log-Error "目标字符串不能为空"
                 return $null
@@ -229,8 +229,8 @@ function Parse-Command {
             return @{ Type = 'before'; Target = $target }
         }
         '^-ft\s+([^\s]+)\s+([^\s]+)$' {
-            $start = $matches[1].Trim(' ', '"', "'")
-            $end = $matches[2].Trim(' ', '"', "'")
+            $start = $matches[1].Trim()
+            $end = $matches[2].Trim()
             if ($start -eq '' -or $end -eq '') {
                 Log-Error "起始符和结束符不能为空"
                 return $null
@@ -238,8 +238,8 @@ function Parse-Command {
             return @{ Type = 'ft'; Param1 = $start; Param2 = $end }
         }
         '^-c\s+([^\s]+)\s+(.*)$' {
-            $oldStr = $matches[1].Trim(' ', '"', "'")
-            $newStr = $matches[2].Trim(' ', '"', "'")
+            $oldStr = $matches[1].Trim()
+            $newStr = $matches[2].Trim()
             if ($oldStr -eq '') {
                 Log-Error "原内容不能为空"
                 return $null
@@ -247,7 +247,7 @@ function Parse-Command {
             return @{ Type = 'change'; OldStr = $oldStr; NewStr = $newStr }
         }
         default {
-            $pattern = $inputStr.Trim(' ', '"', "'")
+            $pattern = $inputStr.Trim()
             if ($pattern -eq '') {
                 Log-Error "删除内容不能为空"
                 return $null
@@ -260,7 +260,7 @@ function Parse-Command {
 # 主处理逻辑
 $scriptName = [IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
 $batName = [IO.Path]::ChangeExtension($scriptName, "bat")
-$exclude = @($scriptName, $batName, "pagefile.sys", "hiberfil.sys", "swapfile.sys")
+$exclude = @($scriptName, $batName, "pagefile.sys", "hiberfil.sys","swapfile.sys","rename.bat")
 
 do {
     $input = Read-Host "`n#基本功能调用指令
