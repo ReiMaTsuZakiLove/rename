@@ -264,7 +264,7 @@ $exclude = @($scriptName, $batName, "pagefile.sys", "hiberfil.sys", "swapfile.sy
 
 do {
     $input = Read-Host "`n#基本功能调用指令
-`n-a  # 添加前缀`n-b  # 删除首个匹配前内容`n-ft  # 删除区间内容`n-c  # 替换首个匹配项`n[字符串] # 普通删除模式`n-help     # 显示帮助
+`n-a  # 添加前缀`n-b  # 删除首个匹配前内容`n-c  # 替换首个匹配项`n-ft  # 删除区间内容`n[字符串] # 普通删除模式`n-help     # 显示帮助
 `n请输入指令"
     if ($input -eq 'exit') { break }
     
