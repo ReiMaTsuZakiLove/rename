@@ -1,4 +1,4 @@
-﻿<# : Batch部分
+<# : Batch部分
 @echo off
 chcp 65001 >nul
 setlocal enabledelayedexpansion
@@ -36,7 +36,7 @@ function Log-Error {
 }
 
 function Show-Help {
-        Write-Host "`nrename - 使用说明" -ForegroundColor Yellow
+    Write-Host "`nrename - 使用说明" -ForegroundColor Yellow
     Write-Host "===============================`n" -ForegroundColor Cyan
 
     Write-Host "这是一个给文件统一名字的脚本，本脚本的对象是同文件夹中所有的文件，建议新建一个文件夹将需要改名的文件和本脚本放在一起"
@@ -264,7 +264,7 @@ $exclude = @($scriptName, $batName, "pagefile.sys", "hiberfil.sys", "swapfile.sy
 
 do {
     $input = Read-Host "`n#基本功能调用指令
-`n-a  # 添加前缀`n-b  # 删除首个匹配前内容`n-c  # 替换首个匹配项`n-ft  # 删除区间内容`n[字符串] # 普通删除模式`n-help     # 显示帮助
+`n-a  # 添加前缀`n-b  # 删除首个匹配前内容`n-ft  # 删除区间内容`n-c  # 替换首个匹配项`n[字符串] # 普通删除模式`n-help     # 显示帮助
 `n请输入指令"
     if ($input -eq 'exit') { break }
     
@@ -276,7 +276,7 @@ do {
         continue
     }
 
-    Get-ChildItem -Path $PWD -Force | Where-Object { 
+    Get-ChildItem -LiteralPath $PWD -Force | Where-Object { 
         $_.Name -notin $exclude -and !$_.Attributes.HasFlag([IO.FileAttributes]::System)
     } | ForEach-Object {
         try {
@@ -293,7 +293,7 @@ do {
             }
 
             $final = Resolve-Conflicts $base $ext ($_ -is [IO.FileInfo]) $_.FullName
-            Rename-Item $_.FullName -NewName $final -Force
+            Rename-Item -LiteralPath $_.FullName -NewName $final -Force
             Log-Info "已重命名: [$($_.Name)] → [$final]"
         }
         catch { 
@@ -304,4 +304,4 @@ do {
     Write-Host "`n操作完成！" -ForegroundColor Green
 } while ($true)
 
-Write-Host "`n程序已退出" -ForegroundColor Yellow
+Write-Host "`n程序已退出" -ForegroundColor Yellow    
